@@ -1,0 +1,6 @@
+run_id,dataset,model,lr,batch_size,dropout,ccc_weight,lr_backbone_mult,lr_head_mult,weight_decay,epochs,status,return_code,best_pub_rmse_mean,best_epoch,last_pub_rmse_mean,duration_sec,run_dir
+1,fer2013,resnet50,8e-05,64,0.2,0.05,0.2,1.0,1e-05,80,ok,0,1.1758445501327515,0,1.401917576789856,398.17252826690674,gridsearch_runs\grid-20260409-150411\001_fer2013_resnet50_lr8e-05_bs64_do0-2_ccc0-05_bb0-2_hd1-0_wd1e-05
+2,caers,resnet50,8e-05,64,0.2,0.05,0.2,1.0,1e-05,80,ok,0,0.36225876212120056,75,0.36405467987060547,12833.107223272324,gridsearch_runs\grid-20260409-150411\002_caers_resnet50_lr8e-05_bs64_do0-2_ccc0-05_bb0-2_hd1-0_wd1e-05
+3,emotic,resnet50,8e-05,64,0.2,0.05,0.2,1.0,1e-05,80,ok,0,0.562213659286499,1,0.62982577085495,1621.853059053421,gridsearch_runs\grid-20260409-150411\003_emotic_resnet50_lr8e-05_bs64_do0-2_ccc0-05_bb0-2_hd1-0_wd1e-05
+4,merged_caers,resnet50,8e-05,64,0.2,0.05,0.2,1.0,1e-05,80,ok,0,1.1508698463439941,1,1.3583159446716309,1568.5495686531067,gridsearch_runs\grid-20260409-150411\004_merged_caers_resnet50_lr8e-05_bs64_do0-2_ccc0-05_bb0-2_hd1-0_wd1e-05
+5,merged_caers_emotic,resnet50,8e-05,64,0.2,0.05,0.2,1.0,1e-05,80,ok,0,1.2241034507751465,3,1.416394591331482,2612.7868452072144,gridsearch_runs\grid-20260409-150411\005_merged_caers_emotic_resnet50_lr8e-05_bs64_do0-2_ccc0-05_bb0-2_hd1-0_wd1e-05

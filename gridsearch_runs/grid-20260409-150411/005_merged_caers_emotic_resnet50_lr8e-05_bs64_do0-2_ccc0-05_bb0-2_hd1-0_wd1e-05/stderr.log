@@ -1,0 +1,12 @@
+C:\Users\NUMVI\Downloads\Projet-DOMINANCE\VAD-Net\fer.py:96: DtypeWarning: Columns (0: emotionLabel, 1: emotion) have mixed types. Specify dtype option on import or set low_memory=False.
+  train_df = pd.read_csv(train_path)
+C:\Users\NUMVI\Downloads\Projet-DOMINANCE\VAD-Net\fer.py:108: DtypeWarning: Columns (0: emotionLabel, 1: emotion) have mixed types. Specify dtype option on import or set low_memory=False.
+  train_df = pd.read_csv(train_path)
+C:\Users\NUMVI\Downloads\Projet-DOMINANCE\VAD-Net\fer.py:191: DtypeWarning: Columns (0: emotionLabel, 1: emotion) have mixed types. Specify dtype option on import or set low_memory=False.
+  self.data = pd.read_csv(split_file)
+C:\Users\NUMVI\Downloads\Projet-DOMINANCE\VAD-Net\.venv\Lib\site-packages\torchvision\models\_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+C:\Users\NUMVI\Downloads\Projet-DOMINANCE\VAD-Net\.venv\Lib\site-packages\torchvision\models\_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=ResNet50_Weights.IMAGENET1K_V1`. You can also use `weights=ResNet50_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+C:\Users\NUMVI\Downloads\Projet-DOMINANCE\VAD-Net\transforms\functional.py:64: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  img = torch.ByteTensor(torch.ByteStorage.from_buffer(pic.tobytes()))

@@ -1,0 +1,14 @@
+{
+  "dataset": "fer2013",
+  "preset": {
+    "train_csv": "data/train-20240123-14902.csv",
+    "public_csv": "data/publictest-20251228.csv",
+    "private_csv": "data/privatetest-20240506.csv"
+  },
+  "status": "ok",
+  "return_code": 0,
+  "duration_sec": 398.17252826690674,
+  "best_pub_rmse_mean": 1.1758445501327515,
+  "best_epoch": 0,
+  "last_pub_rmse_mean": 1.401917576789856
+}

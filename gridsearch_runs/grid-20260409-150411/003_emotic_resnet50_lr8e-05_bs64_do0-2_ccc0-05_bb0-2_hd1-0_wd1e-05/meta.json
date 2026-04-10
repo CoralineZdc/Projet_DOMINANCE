@@ -1,0 +1,14 @@
+{
+  "dataset": "emotic",
+  "preset": {
+    "train_csv": "data/train-emotic-vad.csv",
+    "public_csv": "data/test-emotic-vad.csv",
+    "private_csv": "data/test-emotic-vad.csv"
+  },
+  "status": "ok",
+  "return_code": 0,
+  "duration_sec": 1621.853059053421,
+  "best_pub_rmse_mean": 0.562213659286499,
+  "best_epoch": 1,
+  "last_pub_rmse_mean": 0.62982577085495
+}

@@ -1,0 +1,6 @@
+run_id,dataset,model,lr,batch_size,dropout,ccc_weight,lr_backbone_mult,lr_head_mult,weight_decay,epochs,status,return_code,best_pub_rmse_mean,best_epoch,last_pub_rmse_mean,duration_sec,run_dir
+1,fer2013,resnet50,8e-05,64,0.2,0.05,0.2,1.0,1e-05,80,dry-run,0,,,,0.0,gridsearch_runs\grid-20260409-150242\001_fer2013_resnet50_lr8e-05_bs64_do0-2_ccc0-05_bb0-2_hd1-0_wd1e-05
+2,caers,resnet50,8e-05,64,0.2,0.05,0.2,1.0,1e-05,80,dry-run,0,,,,0.0,gridsearch_runs\grid-20260409-150242\002_caers_resnet50_lr8e-05_bs64_do0-2_ccc0-05_bb0-2_hd1-0_wd1e-05
+3,emotic,resnet50,8e-05,64,0.2,0.05,0.2,1.0,1e-05,80,dry-run,0,,,,0.0,gridsearch_runs\grid-20260409-150242\003_emotic_resnet50_lr8e-05_bs64_do0-2_ccc0-05_bb0-2_hd1-0_wd1e-05
+4,merged_caers,resnet50,8e-05,64,0.2,0.05,0.2,1.0,1e-05,80,dry-run,0,,,,0.0,gridsearch_runs\grid-20260409-150242\004_merged_caers_resnet50_lr8e-05_bs64_do0-2_ccc0-05_bb0-2_hd1-0_wd1e-05
+5,merged_caers_emotic,resnet50,8e-05,64,0.2,0.05,0.2,1.0,1e-05,80,dry-run,0,,,,0.0,gridsearch_runs\grid-20260409-150242\005_merged_caers_emotic_resnet50_lr8e-05_bs64_do0-2_ccc0-05_bb0-2_hd1-0_wd1e-05
