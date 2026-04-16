@@ -20,28 +20,31 @@ from pdb import set_trace as st
 use_cuda = torch.cuda.is_available() # Initialize globally
 
 def conv_orth_dist(kernel, stride = 1):
-    [o_c, i_c, w, h] = kernel.shape
-    assert (w == h),"Do not support rectangular kernel"
-    assert stride<w,"Please use matrix orthgonality instead"
-    new_s = stride*(w-1) + w
-    temp = torch.eye(new_s*new_s*i_c).reshape((new_s*new_s*i_c, i_c, new_s,new_s)).cuda()
-    out = (F.conv2d(temp, kernel, stride=stride)).reshape((new_s*new_s*i_c, -1))
-    Vmat = out[np.floor(new_s**2/2).astype(int)::new_s**2, :]
-    temp= np.zeros((i_c, i_c*new_s**2))
-    for i in range(temp.shape[0]):temp[i,np.floor(new_s**2/2).astype(int)+new_s**2*i]=1
-    return torch.norm( Vmat@torch.t(out) - torch.from_numpy(temp).float().cuda() )
+    o_c, i_c, w, h = kernel.shape
+    assert w == h, "Do not support rectangular kernel"
+    assert stride < w, "Please use matrix orthgonality instead"
+
+    device = kernel.device
+    dtype = kernel.dtype
+    new_s = stride * (w - 1) + w
+    eye = torch.eye(new_s * new_s * i_c, device=device, dtype=dtype)
+    temp = eye.reshape((new_s * new_s * i_c, i_c, new_s, new_s))
+    out = F.conv2d(temp, kernel, stride=stride).reshape((new_s * new_s * i_c, -1))
+    center = int(np.floor(new_s ** 2 / 2))
+    Vmat = out[center::new_s ** 2, :]
+
+    target = torch.zeros((i_c, i_c * new_s ** 2), device=device, dtype=dtype)
+    for i in range(target.shape[0]):
+        target[i, center + new_s ** 2 * i] = 1.0
+    return torch.norm(Vmat @ out.t() - target)
     
 def deconv_orth_dist(kernel, stride = None, padding = 0):
-    o_c, i_c, k_h, k_w = kernel.shape 
-    output = torch.conv2d(kernel, kernel, stride=stride, padding=padding)
+    o_c, i_c, k_h, k_w = kernel.shape
+    output = F.conv2d(kernel, kernel, stride=stride, padding=padding)
     target_shape = (o_c, o_c, output.shape[-2], output.shape[-1])
-    target = torch.zeros(target_shape)
-    if use_cuda:
-        target = target.cuda()
+    target = torch.zeros(target_shape, device=kernel.device, dtype=kernel.dtype)
     ct = int(np.floor(output.shape[-1]/2))
-    identity = torch.eye(o_c)
-    if use_cuda: 
-        identity = identity.cuda()
+    identity = torch.eye(o_c, device=kernel.device, dtype=kernel.dtype)
     target[:,:,ct,ct] = identity
     return torch.norm(output - target)
       
@@ -50,9 +53,7 @@ def orth_dist(mat, stride=None):
         raise RuntimeError("orth_dist received a tensor with more than 2 dimensions. Use deconv_orth_dist for convolutional weights.")
     if mat.shape[0] < mat.shape[1]:
         mat = mat.permute(1,0)
-    identity_matrix = torch.eye(mat.shape[1])
-    if use_cuda: # Conditionally move to CUDA
-        identity_matrix = identity_matrix.cuda()
+    identity_matrix = torch.eye(mat.shape[1], device=mat.device, dtype=mat.dtype)
     return torch.norm( torch.t(mat)@mat - identity_matrix)
 
 def trace_batch(cov):

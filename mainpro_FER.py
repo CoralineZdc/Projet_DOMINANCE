@@ -100,6 +100,26 @@ def build_optimizer_param_groups(net, opt):
     return param_groups
 
 
+def resnet_orthogonal_regularization(net):
+    if not all(hasattr(net, name) for name in ("layer1", "layer2", "layer3", "layer4")):
+        return None
+
+    device = next(net.parameters()).device
+    diff = torch.zeros((), device=device)
+    diff = diff + utils2.deconv_orth_dist(net.layer2[0].shortcut[0].weight, stride=2)
+    diff = diff + utils2.deconv_orth_dist(net.layer3[0].shortcut[0].weight, stride=2)
+    diff = diff + utils2.deconv_orth_dist(net.layer4[0].shortcut[0].weight, stride=2)
+    diff = diff + utils2.deconv_orth_dist(net.layer1[0].conv1.weight, stride=1)
+    diff = diff + utils2.deconv_orth_dist(net.layer1[1].conv1.weight, stride=1)
+    diff = diff + utils2.deconv_orth_dist(net.layer2[0].conv1.weight, stride=2)
+    diff = diff + utils2.deconv_orth_dist(net.layer2[1].conv1.weight, stride=1)
+    diff = diff + utils2.deconv_orth_dist(net.layer3[0].conv1.weight, stride=2)
+    diff = diff + utils2.deconv_orth_dist(net.layer3[1].conv1.weight, stride=1)
+    diff = diff + utils2.deconv_orth_dist(net.layer4[0].conv1.weight, stride=2)
+    diff = diff + utils2.deconv_orth_dist(net.layer4[1].conv1.weight, stride=1)
+    return diff
+
+
 def train(epoch, trainloader, net, optimizer, criterion, use_cuda, loss_weights, opt):
     net.train()
     total_loss = 0.0
@@ -124,23 +144,9 @@ def train(epoch, trainloader, net, optimizer, criterion, use_cuda, loss_weights,
             loss = loss + opt.ccc_weight * ccc_loss(outputs, targets, loss_weights)
 
         if opt.ortho > 0.0:
-            try:
-                diff = (
-                    utils2.deconv_orth_dist(net.layer2[0].shortcut[0].weight, stride=2)
-                    + utils2.deconv_orth_dist(net.layer3[0].shortcut[0].weight, stride=2)
-                    + utils2.deconv_orth_dist(net.layer4[0].shortcut[0].weight, stride=2)
-                )
-                diff += utils2.deconv_orth_dist(net.layer1[0].conv1.weight, stride=1)
-                diff += utils2.deconv_orth_dist(net.layer1[1].conv1.weight, stride=1)
-                diff += utils2.deconv_orth_dist(net.layer2[0].conv1.weight, stride=2)
-                diff += utils2.deconv_orth_dist(net.layer2[1].conv1.weight, stride=1)
-                diff += utils2.deconv_orth_dist(net.layer3[0].conv1.weight, stride=2)
-                diff += utils2.deconv_orth_dist(net.layer3[1].conv1.weight, stride=1)
-                diff += utils2.deconv_orth_dist(net.layer4[0].conv1.weight, stride=2)
-                diff += utils2.deconv_orth_dist(net.layer4[1].conv1.weight, stride=1)
+            diff = resnet_orthogonal_regularization(net)
+            if diff is not None:
                 loss = loss + opt.ortho * diff
-            except Exception:
-                pass
 
         loss.backward()
         if opt.grad_clip > 0.0:

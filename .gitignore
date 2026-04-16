@@ -1,0 +1,11 @@
+# Generated datasets and experiment outputs
+data/
+
+# Training artifacts and search outputs
+Caer-S_ResNet18/
+Caer-S_ResNet50/
+gridsearch_runs/
+
+# Python bytecode
+__pycache__/
+*.pyc
