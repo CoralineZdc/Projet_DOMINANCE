@@ -2,6 +2,7 @@
 data/
 
 # Training artifacts and search outputs
+runs/
 Caer-S_ResNet18/
 Caer-S_ResNet50/
 gridsearch_runs/
